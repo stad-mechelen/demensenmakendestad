@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link href='https://fonts.googleapis.com/css?family=Quattrocento:400,700' rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    	<meta charset="utf-8">
+    	<title>Mapping the Antwerp Commons</title>
+    	<style>
+		html { height: 100% }
+		body { height: 100%; margin: 0px; padding: 0px;  }
+		#container { width: 100%; height: 100% ; }
+		#map-canvas { width: 100%; height: 100%; */ border: double 15px burlywood;*/}
+		#over_map { position: absolute; top: 0px; left: 0px; z-index: 99; background: white; opacity: 0.8; width: 500px; height: 100%; overflow-y: scroll; }
+		h1 { text-align: center; font-family: 'Quattrocento', serif; font-size: 300%; font-weight: 600; margin-bottom:20px; color:black; text-shadow: 0px 1px 0px rgba(211,211,211,211);}
+		p { margin: 10px 10px 10px 10px; font-family: 'Quattrocento', serif; font-weight: 400; color:black; text-align: justify;}
+		.firstLetter { color: black;float: left;font-family: 'Quattrocento', serif;font-size: 300%;margin-right: 6px;}
+    	</style>
+	
+<!-- 
+	You need to include this script on any page that has a Google Map.
+	When using Google Maps on your own site you MUST signup for your own API key at:
+		https://developers.google.com/maps/documentation/javascript/tutorial#api_key
+	After your sign up replace the key in the URL below or paste in the new script tag that Google provides.
+-->
+
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeOWJhFCfgv7AMQESXZchAyGBsDcYxc7w"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script type="text/javascript">
+	google.maps.event.addDomListener(window, 'load', initialize);
+	function initialize() {
+	
+	var belgium = new google.maps.LatLng(51.2212561, 4.3814956);
+
+	var mapElement = document.getElementById('map-canvas');
+
+	var map = new google.maps.Map(mapElement,{
+		center: belgium,
+		zoom: 12,
+		panControl:false,
+		zoomControl:false,
+		mapTypeControl:false,
+		scaleControl:true,
+		streetViewControl:false,
+		overviewMapControl:false,
+		rotateControl:false,
+		draggableCursor: 'crosshair',
+		//mapTypeId:google.maps.MapTypeId.ROADMAP DIT MAG ER NIET STAAN ALS JE STYLES WIL WIJZIGEN
+		styles:
+ 	
+[
+    {
+        "featureType": "all",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "weight": "2.00"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#9c9c9c"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#f2f2f2"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#f5e39d"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#f5e39d"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#a4b03e"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "saturation": -100
+            },
+            {
+                "lightness": 45
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#7b7b7b"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#46bcec"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#b1e0f3"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#070707"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    }
+]});
+	//map.setOptions({ draggableCursor: 'crosshair' });
+	var layerCWGC = new google.maps.FusionTablesLayer({
+		query: {select: 'Adres', from: '1uJCRMiZEjrn472DORx5Qin9i34KiHNt6uUVT-kNn'},
+		suppressInfoWindows: true,
+		styles: [{where: "'country'='Belgium'", markerOptions:{ iconName:"road_shield3"}}]
+	});
+	//var nationslayer = new google.maps.FusionTablesLayer({
+	//	query: {select: "'Full Address'",from: '1DqX0BxwByjSybJhHQbJdZhQ_RKkAQdgH9XcxpLRA'}, 
+	//	suppressInfoWindows: true
+	//});
+	layerCWGC.setMap(map);
+	// nationslayer.setMap(map);
+	//
+	//
+	//GRID
+	//This can turn on a grid loaded from the v3_11_grat.js script
+	// grid = new Graticule(map, true);
+	//
+	//
+	//INFOWINDOW_ALTERNATIVE
+	//This is another method to customise the Infowindow content, more dificult to stylize
+	//google.maps.event.addListener(layerCWGC, 'click', function(e) 
+	//	{
+	//		Change the content of the InfoWindow
+	//		e.infoWindowHtml = e.row['name'].value; + "<br>" + e.row['name'].value;
+	//		If the delivery == yes, add content to the window
+	//		if (e.row['delivery'].value == 'yes') {
+	//		e.infoWindowHtml += "Delivers!";
+	//	});
+	//
+	//
+	//INFOWINDOW_ALTERNATIVE_BEST
+	//This is the best alternative, combining style-options, setcontent and table integration
+	var infowindow;
+	var infoWindowContent = '';
+	var coordinate;
+	var latlng = new google.maps.LatLng(44.74648547505308, -89.84939737499997); 
+	//click listener on layer
+	google.maps.event.addListener(layerCWGC, 'click', function(e) 
+		{
+			map.setZoom(16);
+			if(infowindow) infowindow.close();
+			else infowindow = new google.maps.InfoWindow();
+			
+	//		create info window layer
+			infoWindowContent = infowindow.setContent(
+				/*'<h1>This comes from the Fusion Table: <br />' + */
+				'<h2>' + e.row['Naam'].value + '</h2>' +
+				'<br />' +
+				'<p><b>Adres: </b>' + e.row['Adres'].value + '</p>' +
+				'<p><b>Website: </b><a href="mailto:' + e.row['Email'].value + '">' + e.row['Email'].value + '</a></p>' +
+				'<p><b>Tel: </b>' + e.row['Tel'].value + '</p>' +
+				'<p><b>Website: </b><a href="' + e.row['URL'].value + '">' + e.row['URL'].value + '</a></p>' +
+				'<p><img src="' + e.row['Image'].value + '" style="width:100px;"></p>'
+				/* +
+				'<p>This is hardcoded to the script <br /> and will appear in each infowindow</p>' +
+				'<div id="content">'+
+				'<div id="siteNotice">'+
+				'</div>'+
+				'<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+				'<div id="bodyContent">'+
+				'<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+				'sandstone rock formation in the southern part of the '+
+				'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+				'south west of the nearest large town, Alice Springs; 450&#160;km '+
+				'(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+				'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+				'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+				'Aboriginal people of the area. It has many springs, waterholes, '+
+				'rock caves and ancient paintings. Uluru is listed as a World '+
+				'Heritage Site.</p>'+
+				'<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+				'http://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+				'(last visited June 22, 2009).</p>'+
+				'</div>'+
+				'</div>'*/);
+			infowindow.setPosition(e.latLng);
+			map.setCenter(e.latLng);
+			infowindow.open(map);   
+		});
+		
+	//Closes the infowindow if you click somewhere else	
+	google.maps.event.addListener(map, "click", function(){infowindow.close()});
+	}
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</head>
+<body>
+  	<div id="container">
+		<div id="map-canvas"></div>
+		<div id="over_map">
+				<h1>SEPULCHRUM</h1>
+				<h1>Bellum Civile Europe&aelig;</h1>
+				<p><span class="firstLetter">Q</span>
+uae consociationes et commutatae sunt et creverunt, cum aliae civitates bellum committerent. Ad extremum plus 70 miliones militum, inter quos 60 miliones Europaeorum, ad arma convocati sunt in unum ex maximis bellis umquam gestis. Plus 9 miliones pugnatorum interfecti sunt. Tam multa caedes facta est propter quod novae artes nova arma, sicut arma chemica a militis Germaniae, et quidem exitiosiora produxerant, cum pares tutelae, mobilitatis, medicinae emendationes deessent. Primum bellum mundanum tam cruenta caede commissum est, ut quattuor tantum bella umquam gesta etiam plures occisos numerarent; quo factum est ut variae mutationes politicae nec non res novae in multis civitatibus belli excidio adfectis initium caperent.</p>
+<p><span class="firstLetter">M</span>
+ultas ob causas coepit bellum. Quarum una et quidem diutina fuit imperii amplificandi studium, quod praepotentibus inerat civitatibus Europaeis: Imperio Germanico, Imperio Austro-Hungarico, Italiae, Imperio Ottomanico, Imperio Russico, Imperio Britannico, Reipublicae Francicae. Sed ea ipsa causa belli fuit quod Franciscus Ferdinandus, archidux Austriae heresque Austro-Hungariae, a Gabriele Princip, nationalista Iugoslavico, insidiis factis Seraii, in Bosnia et Herzegovina, die 28 Iunii 1914 occisus erat. Quo facto, haec conflictatio quasi per causarum concatenationem exarsit, cum foedera prioribus facta decenniis invocata essent. Austro-Hungaria, ultimato edicto Serbiae bellum indixit. Itaque imperia praepotentia bellis invicem indictis intra unum mensem proelia faciebant, quae per colonias imperiorum circum orbem terrarum mox extendebantur.</p>
+<p><span class="firstLetter">D</span>
+ie 28 Iulii, Austro-Hungaria Serbiae, Germania Belgio, Luxemburgo Franciaeque, ac Russia Germaniae bellum intulerunt. Itinere Lutetiam Germanorum represso fossisque sclopetariis ductis frons occidentalis facta est, in qua stativum et exhaustivum bellum diu gestum est. In orientali autem fronte exercitus Russicus cum copiis Austro-Hungaricis prospere pugnavit, sed cum Borussiam Orientalem invadere contenderet, a Germanis arctus est. Postquam Imperium Ottomanicum anno 1914 bellum suscepit, apertae sunt frontes in oriente. Deinde Italia et Bulgaria anno 1915, denique Romania anno 1916 ad bellum consurrexerunt. Imperium Russicum mense Martio 1917 conlapsum est, et Russia post res novas Octobres eodem anno bellum deposuit. Anno 1918 Germani incursu in frontem occidentalem facto a Foederatis impetibus prosperis repulsi sunt. Etiam copiae Consociationis Nationum fossas sclopetarias intrare coeperunt. Itaque Germania, quae tunc cives suos seditiosos inpugnabat, indutias die 11 Novembris 1918 iniit. Foederati tandem victores bellum confecerunt.</p>
+<p><span class="firstLetter">D</span>
+omesticae frontis eventus non minus tumultuosi fuerunt quam in acie militari, cum bellatores hominibus rebusque conarentur ad bellum universum uti. Bello finito quattuor imperia (Germanum, Russicum, Austro-Hungaricum, Ottomanicum) exsistere desierunt. Civitates quae Germanico et Russico imperiis successerunt multas amiserunt terras, cum Austro-Hungaricum et Ottomanicum imperia omnino diruerentur. Itaque geographia Europae Mediae commutata est. Confoederatio Nationum ad prohibendum aliud certamen tantae magnitudinis constituta est. At in cassum ceciderunt haec quoque consilia, nam nationalismus Europaeus bello imperiorumque dissolutione amplificabatur. Et Germani, qui se sub iugum missos sentiebant, foedere Versaliensi adgravati satisfactionem paulatim moliebant. Quibus de causis evenerunt ea quae postea ad secundum bellum mundanum inductura essent.</p>
+		</div>
+	</div>
+  </body>
+</html>
